@@ -27,7 +27,7 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
   if (!signer.provider) {
     throw new Error("Signer must have an associated provider");
   }
-  const relayer = "0xEECdFe9917dCC082E142A7e0fFdd7730B57A35eE";
+  const relayer = "0xbbA56A5173E8cA4CBF0bfc6f5e9DeDb00bb6F4F2";
   const provider = signer.provider;
 
   const contract = new ethers.Contract(token, TOKEN_ABI, provider);
