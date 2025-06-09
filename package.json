@@ -1,0 +1,19 @@
+{
+  "name": "courier-client-sdk",
+  "version": "1.0.0",
+  "description": "A gasless token transfer relayer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "reinstall" : "rm -rf node_modules && npm install"
+  },
+  "keywords": [
+    ["relayer", "meta-transactions", "ethereum", "vercel", "courier"]
+  ],
+  "author": "0x1codegod",
+  "license": "MIT",
+  "dependencies": {
+    "@ethersproject/abstract-signer": "^5.8.0",
+    "ethers": "^6.14.3"
+  }
+}
