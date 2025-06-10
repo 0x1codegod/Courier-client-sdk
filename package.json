@@ -1,23 +1,26 @@
 {
   "name": "courier-client-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A gasless token transfer relayer.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "reinstall": "rm -rf node_modules && npm install",
     "build": "tsc"
   },
   "keywords": [
-      "relayer",
-      "meta-transactions",
-      "ethereum",
-      "vercel",
-      "courier"
+    "relayer",
+    "meta-transactions",
+    "ethereum",
+    "vercel",
+    "courier"
   ],
-  "author": "0x1codegod","repository": {
+  "author": "0x1codegod",
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/0x1codegod/Courier-client-sdk.git"
   },
