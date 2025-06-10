@@ -23,7 +23,7 @@ export async function submitMetaTransaction(input: SubmitMetaTxInput): Promise<R
     s,
   } = input;
   
-  const endpoint =  "/api/relayMetaTx";
+  const endpoint =  "https://relay-68ezseoyf-0x1codegods-projects.vercel.app/api/relayMetaTx";
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
