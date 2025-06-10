@@ -2,7 +2,7 @@
 
 A lightweight TypeScript SDK for signing EIP-712 `permit` meta-transactions and sending them to a relayer backend — built for seamless gasless user experiences using WalletConnect or any EVM-compatible wallet.
 
-<!-- [![npm version](https://img.shields.io/npm/v/@courier/client-sdk)](https://www.npmjs.com/package/@courier/client-sdk) -->
+[![npm version](https://img.shields.io/npm/v/courier-client-sdk)](https://www.npmjs.com/package/courier-client-sdk)
 [![GitHub](https://img.shields.io/badge/source-github-blue)](https://github.com/0x1codegod/Courier-client-sdk)
 
 ---
