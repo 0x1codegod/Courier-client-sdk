@@ -4,6 +4,7 @@
   "description": "A gasless token transfer relayer.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "reinstall": "rm -rf node_modules && npm install",
@@ -16,7 +17,14 @@
       "vercel",
       "courier"
   ],
-  "author": "0x1codegod",
+  "author": "0x1codegod","repository": {
+    "type": "git",
+    "url": "git+https://github.com/0x1codegod/Courier-client-sdk.git"
+  },
+  "homepage": "https://github.com/0x1codegod/Courier-client-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/0x1codegod/Courier-client-sdk/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.8.0",
