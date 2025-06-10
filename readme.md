@@ -79,7 +79,7 @@ dist/
 
 ```bash
 git clone https://github.com/0x1codegod/Courier-client-sdk.git
-cd courier-client-sdk
+cd Courier-client-sdk
 npm install
 npm run build
 ```
