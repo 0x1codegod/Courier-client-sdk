@@ -11,7 +11,7 @@ export interface SubmitMetaTxInput {
   s: string;
 }
 
-export async function submitMetaTransaction(input: SubmitMetaTxInput): Promise<Response> {
+export async function submitSignedPermitData(input: SubmitMetaTxInput): Promise<Response> {
   const {
     token,
     owner,
