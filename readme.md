@@ -36,7 +36,7 @@ import { useReadContract, useWalletClient } from "wagmi";
 
 
 const { data: walletClient } = useWalletClient();
-const signer = await walletClientToEthersSigner(walletClient)
+const signer = await walletClientToEthersSigner(walletClient, address);
 
 const result = await signPermitTypedData({
   token: "0xTokenAddress",

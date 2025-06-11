@@ -1,25 +1,24 @@
-import { BrowserProvider } from "ethers";
-import type { WalletClient } from "viem";
+import { WalletClient } from "viem";
+import { ethers } from "ethers";
+import { TypedDataSigner } from "@ethersproject/abstract-signer";
 
-// Convert viem WalletClient to EIP-1193-compatible provider and get a signer that supports _signTypedData
 export async function walletClientToEthersSigner(
   walletClient: WalletClient,
   address: string
-) {
+): Promise<ethers.Signer & TypedDataSigner> {
   const eip1193Provider = {
-    request: async ({ method, params }: { method: any; params?: any }) =>
-      walletClient.request({ method, params }),
+    request: async (args: { method: any; params?: any }) =>
+      walletClient.request(args),
   };
 
-  const provider = new BrowserProvider(eip1193Provider as any);
-  const signer = await provider.getSigner(address);
+  const browserProvider = new ethers.BrowserProvider(eip1193Provider as any);
+  const signer = await browserProvider.getSigner(address);
 
-  // Optionally assert that _signTypedData exists (for TypeScript type safety)
-  return signer as typeof signer & {
-    _signTypedData: (
-      domain: any,
-      types: Record<string, any[]>,
-      value: Record<string, any>
-    ) => Promise<string>;
-  };
+  // Confirm signer supports _signTypedData
+  if (typeof (signer as any)._signTypedData !== "function") {
+    throw new Error("Signer does not support _signTypedData");
+  }
+
+  return signer as unknown as ethers.Signer & TypedDataSigner;
+
 }
