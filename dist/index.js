@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.walletClientToEthersSigner = exports.supportedTokens = exports.submitSignedPermitData = exports.TOKEN_ABI = exports.signPermitTypedData = void 0;
+exports.supportedTokens = exports.submitSignedPermitData = exports.TOKEN_ABI = exports.signPermitTypedData = void 0;
 var signPermitTypedData_1 = require("./signPermitTypedData");
 Object.defineProperty(exports, "signPermitTypedData", { enumerable: true, get: function () { return signPermitTypedData_1.signPermitTypedData; } });
 var erc20Permit_1 = require("./erc20Permit");
@@ -9,5 +9,3 @@ var submitSignedPermitData_1 = require("./submitSignedPermitData");
 Object.defineProperty(exports, "submitSignedPermitData", { enumerable: true, get: function () { return submitSignedPermitData_1.submitSignedPermitData; } });
 var supportedTokens_1 = require("./supportedTokens");
 Object.defineProperty(exports, "supportedTokens", { enumerable: true, get: function () { return supportedTokens_1.supportedTokens; } });
-var walletClientToSigner_1 = require("./walletClientToSigner");
-Object.defineProperty(exports, "walletClientToEthersSigner", { enumerable: true, get: function () { return walletClientToSigner_1.walletClientToEthersSigner; } });

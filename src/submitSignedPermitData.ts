@@ -5,7 +5,7 @@ export interface SubmitMetaTxInput {
   owner: string;
   recipient: string;
   amount: string;      
-  deadline: bigint;
+  deadline: string;
   v: number;
   r: string;
   s: string;
