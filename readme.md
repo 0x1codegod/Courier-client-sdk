@@ -31,8 +31,12 @@ yarn add courier-client-sdk
 ### 1. Sign a Permit
 
 ```ts
-import { signPermitTypedData } from "courier-client-sdk";
-import { Wallet } from "ethers";
+import { signPermitTypedData, submitSignedPermitData, walletClientToEthersSigner } from "courier-client-sdk";
+import { useReadContract, useWalletClient } from "wagmi";
+
+
+const { data: walletClient } = useWalletClient();
+const signer = await walletClientToEthersSigner(walletClient)
 
 const result = await signPermitTypedData({
   token: "0xTokenAddress",
@@ -48,15 +52,15 @@ console.log(result); // { v, r, s, deadline }
 ### 2. Send to courier handler
 
 ```ts
-import { submitSignedPermitData } from "courier-client-sdk";
-
 await submitSignedPermitData({
     token: "0x...",
     owner: "0x...",
     recipient: "0x...",
     amount: BigInt(1000),
-    deadline,
-    v, r, s,
+    result.deadline,
+    result.v, 
+    result.r, 
+    result.s,
 });
 ```
 
