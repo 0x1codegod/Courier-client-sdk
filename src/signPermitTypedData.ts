@@ -1,13 +1,15 @@
 import { ethers } from "ethers";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
 import { TOKEN_ABI } from "./erc20Permit";
+import { WalletClient } from "viem";
+import { createPublicClient, custom } from "viem";
+import { signTypedData } from "viem/actions";
 
 export interface SignPermitInput {
   owner: string;
   token: `0x${string}`;
   amount: bigint;
   deadline: bigint;
-  signer: ethers.Signer & TypedDataSigner;
+  walletClient: WalletClient;
 }
 
 export async function signPermitTypedData(input: SignPermitInput): Promise<{
@@ -16,20 +18,32 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
   s: string;
   deadline: bigint;
 }> {
-  const { owner, token, amount, deadline, signer } = input;
+  const { owner, token, amount, deadline, walletClient } = input;
 
-  if (!signer.provider) {
+  if (!walletClient) {
     throw new Error("Signer must have an associated provider");
   }
 
   const relayer = "0xbbA56A5173E8cA4CBF0bfc6f5e9DeDb00bb6F4F2";
-  const provider = signer.provider;
-  const network = await signer.provider.getNetwork(); 
-  const chainId = network.chainId;
 
-  const contract = new ethers.Contract(token, TOKEN_ABI, provider);
-  const tokenName = await contract.name();
-  const nonce = await contract.nonces(owner);
+  const chainId = await walletClient.getChainId();
+  const publicClient = createPublicClient({
+    chain: walletClient.chain,
+    transport: custom(walletClient.transport),
+  });
+
+const tokenName = await publicClient.readContract({
+    address: token,
+    abi: TOKEN_ABI,
+    functionName: "name",
+  });
+
+  const nonce = await publicClient.readContract({
+    address: token,
+    abi: TOKEN_ABI,
+    functionName: "nonces",
+    args: [owner],
+  });
 
   if (nonce === undefined || nonce === null) {
     throw new Error("Failed to fetch nonce");
@@ -52,7 +66,7 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
     ],
   };
 
-  const values = {
+  const message = {
     owner,
     spender: relayer,
     value: amount,
@@ -60,7 +74,18 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
     deadline,
   };
 
-  const signature = await signer._signTypedData(domain, types, values);
-  const { v, r, s } = ethers.Signature.from(signature);
+  const signature = await signTypedData(walletClient, {
+    account: owner as `0x${string}`,
+    domain,
+    types,
+    primaryType: "Permit",
+    message,
+  });
+
+  const r = '0x' + signature.slice(2, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const vHex = signature.slice(130, 132);
+  const v = parseInt(vHex, 16);
+  
   return { v, r, s, deadline };
 }

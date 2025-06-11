@@ -1,11 +1,10 @@
-import { ethers } from "ethers";
-import { TypedDataSigner } from "@ethersproject/abstract-signer";
+import { WalletClient } from "viem";
 export interface SignPermitInput {
     owner: string;
     token: `0x${string}`;
     amount: bigint;
     deadline: bigint;
-    signer: ethers.Signer & TypedDataSigner;
+    walletClient: WalletClient;
 }
 export declare function signPermitTypedData(input: SignPermitInput): Promise<{
     v: number;
