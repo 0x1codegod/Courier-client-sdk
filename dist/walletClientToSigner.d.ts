@@ -1,4 +1,4 @@
-import type { WalletClient } from "viem";
-export declare function walletClientToEthersSigner(walletClient: WalletClient, address: string): Promise<import("ethers").JsonRpcSigner & {
-    _signTypedData: (domain: any, types: Record<string, any[]>, value: Record<string, any>) => Promise<string>;
-}>;
+import { WalletClient } from "viem";
+import { ethers } from "ethers";
+import { TypedDataSigner } from "@ethersproject/abstract-signer";
+export declare function walletClientToEthersSigner(walletClient: WalletClient, address: string): Promise<ethers.Signer & TypedDataSigner>;

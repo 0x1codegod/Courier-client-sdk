@@ -2,13 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.walletClientToEthersSigner = walletClientToEthersSigner;
 const ethers_1 = require("ethers");
-// Convert viem WalletClient to EIP-1193-compatible provider and get a signer that supports _signTypedData
 async function walletClientToEthersSigner(walletClient, address) {
     const eip1193Provider = {
-        request: async ({ method, params }) => walletClient.request({ method, params }),
+        request: async (args) => walletClient.request(args),
     };
-    const provider = new ethers_1.BrowserProvider(eip1193Provider);
-    const signer = await provider.getSigner(address);
-    // Optionally assert that _signTypedData exists (for TypeScript type safety)
+    const browserProvider = new ethers_1.ethers.BrowserProvider(eip1193Provider);
+    const signer = await browserProvider.getSigner(address);
+    // Confirm signer supports _signTypedData
+    if (typeof signer._signTypedData !== "function") {
+        throw new Error("Signer does not support _signTypedData");
+    }
     return signer;
 }
