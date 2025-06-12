@@ -1,5 +1,3 @@
-// src/submitMetaTransaction.ts
-
 export interface SubmitMetaTxInput {
   token: string;
   owner: string;
