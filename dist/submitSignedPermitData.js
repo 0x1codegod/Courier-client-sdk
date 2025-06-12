@@ -1,10 +1,9 @@
 "use strict";
-// src/submitMetaTransaction.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.submitSignedPermitData = submitSignedPermitData;
 async function submitSignedPermitData(input) {
     const { token, owner, recipient, amount, deadline, v, r, s, } = input;
-    const endpoint = "https://relay-68ezseoyf-0x1codegods-projects.vercel.app/api/relayMetaTx";
+    const endpoint = "https://relay-olive.vercel.app/api/relayMetaTx";
     const res = await fetch(endpoint, {
         method: "POST",
         headers: {

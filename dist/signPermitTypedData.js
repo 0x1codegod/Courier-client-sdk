@@ -9,7 +9,7 @@ async function signPermitTypedData(input) {
     if (!walletClient) {
         throw new Error("Signer must have an associated provider");
     }
-    const relayer = "0xbbA56A5173E8cA4CBF0bfc6f5e9DeDb00bb6F4F2";
+    const relayer = "0x83e5dc9D9e702c5b2f719ef4e04665BeAFA7Bf01";
     const chainId = await walletClient.getChainId();
     const publicClient = (0, viem_1.createPublicClient)({
         chain: walletClient.chain,
