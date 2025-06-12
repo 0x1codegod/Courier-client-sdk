@@ -2,6 +2,7 @@ import { TOKEN_ABI } from "./erc20Permit";
 import { WalletClient } from "viem";
 import { createPublicClient, custom } from "viem";
 import { signTypedData } from "viem/actions";
+import {ethers} from "ethers";
 
 export interface SignPermitInput {
   owner: string;
@@ -81,10 +82,10 @@ const tokenName = await publicClient.readContract({
     message,
   });
 
-  const r = '0x' + signature.slice(2, 66);
-  const s = '0x' + signature.slice(66, 130);
-  const vHex = signature.slice(130, 132);
-  const v = parseInt(vHex, 16);
-  
+  // split the signature into its components
+    const sig = ethers.Signature.from(signature);
+    const v = sig.v;
+    const r = sig.r;
+    const s = sig.s;
   return { v, r, s, deadline };
 }
