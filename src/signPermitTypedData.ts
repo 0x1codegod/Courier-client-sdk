@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import { TOKEN_ABI } from "./erc20Permit";
 import { WalletClient } from "viem";
 import { createPublicClient, custom } from "viem";
@@ -24,7 +23,7 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
     throw new Error("Signer must have an associated provider");
   }
 
-  const relayer = "0xbbA56A5173E8cA4CBF0bfc6f5e9DeDb00bb6F4F2";
+  const relayer = "0x83e5dc9D9e702c5b2f719ef4e04665BeAFA7Bf01";
 
   const chainId = await walletClient.getChainId();
   const publicClient = createPublicClient({
