@@ -23,7 +23,7 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
     throw new Error("Signer must have an associated provider");
   }
 
-  const relayer = "0x83e5dc9D9e702c5b2f719ef4e04665BeAFA7Bf01";
+  const relayer = "0x20b5264f32AFc9B4ef5BF05AE51fdCF85F8244c6";
 
   const chainId = await walletClient.getChainId();
   const publicClient = createPublicClient({

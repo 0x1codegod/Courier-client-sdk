@@ -21,7 +21,7 @@ export async function submitSignedPermitData(input: SubmitMetaTxInput): Promise<
     s,
   } = input;
   
-  const endpoint =  "https://relay-olive.vercel.app/api/relayMetaTx";
+  const endpoint =  "https://courier-rho.vercel.app/api/relayMetaTx";
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
