@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signPermitTypedData = signPermitTypedData;
 const erc20Permit_1 = require("./erc20Permit");
 const viem_1 = require("viem");
-const actions_1 = require("viem/actions");
 const ethers_1 = require("ethers");
 async function signPermitTypedData(input) {
     const { owner, token, amount, deadline, walletClient } = input;
@@ -15,6 +14,11 @@ async function signPermitTypedData(input) {
     const publicClient = (0, viem_1.createPublicClient)({
         chain: walletClient.chain,
         transport: (0, viem_1.custom)(walletClient.transport),
+    });
+    const domainSeparator = await publicClient.readContract({
+        address: token,
+        abi: erc20Permit_1.TOKEN_ABI,
+        functionName: "DOMAIN_SEPARATOR",
     });
     const tokenName = await publicClient.readContract({
         address: token,
@@ -38,26 +42,30 @@ async function signPermitTypedData(input) {
     };
     const types = {
         Permit: [
-            { name: "owner", type: "address" },
-            { name: "spender", type: "address" },
-            { name: "value", type: "uint256" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
+            { name: 'owner', type: 'address' },
+            { name: 'spender', type: 'address' },
+            { name: 'value', type: 'uint256' },
+            { name: 'nonce', type: 'uint256' },
+            { name: 'deadline', type: 'uint256' },
         ],
     };
-    const message = {
-        owner,
+    const values = {
+        owner: owner,
         spender: relayer,
         value: amount,
-        nonce,
-        deadline,
+        nonce: nonce,
+        deadline: deadline,
     };
-    const signature = await (0, actions_1.signTypedData)(walletClient, {
+    // Check domain is correct
+    if (await domainSeparator != ethers_1.ethers.TypedDataEncoder.hashDomain(domain)) {
+        throw new Error("Invalid domain");
+    }
+    const signature = await walletClient.signTypedData({
         account: owner,
-        domain,
-        types,
+        domain: domain,
         primaryType: "Permit",
-        message,
+        types: types,
+        message: values,
     });
     // split the signature into its components
     const sig = ethers_1.ethers.Signature.from(signature);
