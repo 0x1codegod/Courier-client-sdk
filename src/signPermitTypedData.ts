@@ -58,6 +58,8 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
     throw new Error("Failed to fetch nonce");
   }
 
+  console.log([tokenName, nonce, domainSeparator])
+
    const domain ={
       name: tokenName! as string,
       version: "1",
