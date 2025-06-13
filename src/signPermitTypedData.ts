@@ -5,7 +5,7 @@ import { signTypedData } from "viem/actions";
 import {ethers} from "ethers";
 
 export interface SignPermitInput {
-  owner: string;
+  owner: `0x{string}`;
   token: `0x${string}`;
   amount: bigint;
   deadline: bigint;
@@ -27,16 +27,24 @@ export async function signPermitTypedData(input: SignPermitInput): Promise<{
   const relayer = "0x20b5264f32AFc9B4ef5BF05AE51fdCF85F8244c6";
 
   const chainId = await walletClient.getChainId();
+
   const publicClient = createPublicClient({
     chain: walletClient.chain,
     transport: custom(walletClient.transport),
   });
 
-const tokenName = await publicClient.readContract({
+  const domainSeparator = await publicClient.readContract({
     address: token,
     abi: TOKEN_ABI,
-    functionName: "name",
+    functionName: "DOMAIN_SEPARATOR",
   });
+  
+  const tokenName = await publicClient.readContract({
+      address: token,
+      abi: TOKEN_ABI,
+      functionName: "name",
+    });
+  
 
   const nonce = await publicClient.readContract({
     address: token,
@@ -44,6 +52,7 @@ const tokenName = await publicClient.readContract({
     functionName: "nonces",
     args: [owner],
   });
+
 
   if (nonce === undefined || nonce === null) {
     throw new Error("Failed to fetch nonce");
@@ -56,31 +65,37 @@ const tokenName = await publicClient.readContract({
       verifyingContract: token
     }
     
-  const types = {
-    Permit: [
-      { name: "owner", type: "address" },
-      { name: "spender", type: "address" },
-      { name: "value", type: "uint256" },
-      { name: "nonce", type: "uint256" },
-      { name: "deadline", type: "uint256" },
-    ],
-  };
+    const types = {
+      Permit: [
+        { name: 'owner', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'deadline', type: 'uint256' },
+      ],
+    };
 
-  const message = {
-    owner,
-    spender: relayer,
-    value: amount,
-    nonce,
-    deadline,
-  };
 
-  const signature = await signTypedData(walletClient, {
-    account: owner as `0x${string}`,
-    domain,
-    types,
-    primaryType: "Permit",
-    message,
-  });
+  const values = {
+      owner: owner,
+      spender: relayer,
+      value: amount,
+      nonce: nonce,
+      deadline: deadline,
+    }
+
+// Check domain is correct
+    if (await domainSeparator != ethers.TypedDataEncoder.hashDomain(domain)) {
+        throw new Error("Invalid domain");
+    }
+    
+   const signature = await walletClient.signTypedData({
+      account: owner,
+      domain : domain,
+      primaryType: "Permit",
+      types: types,
+      message: values,
+    });
 
   // split the signature into its components
     const sig = ethers.Signature.from(signature);
