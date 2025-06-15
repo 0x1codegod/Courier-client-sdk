@@ -1,6 +1,6 @@
 import { WalletClient } from "viem";
 export interface SignPermitInput {
-    owner: `0x{string}`;
+    owner: `0x${string}`;
     token: `0x${string}`;
     amount: bigint;
     deadline: bigint;

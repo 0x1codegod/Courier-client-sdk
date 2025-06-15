@@ -34,6 +34,7 @@ async function signPermitTypedData(input) {
     if (nonce === undefined || nonce === null) {
         throw new Error("Failed to fetch nonce");
     }
+    console.log([tokenName, nonce, domainSeparator]);
     const domain = {
         name: tokenName,
         version: "1",

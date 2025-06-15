@@ -1,7 +1,7 @@
 export interface SubmitMetaTxInput {
-    token: string;
-    owner: string;
-    recipient: string;
+    token: `0x${string}`;
+    owner: `0x${string}`;
+    recipient: `0x${string}`;
     amount: string;
     deadline: string;
     v: number;
