@@ -32,14 +32,14 @@ yarn add courier-client-sdk
 
 ```ts
 import { signPermitTypedData, submitSignedPermitData} from "courier-client-sdk";
-import { useReadContract, useWalletClient } from "wagmi";
+import { useWalletClient } from "wagmi";
 
 
 const { data: walletClient } = useWalletClient();
 
 const result = await signPermitTypedData({
   token: "0xTokenAddress",
-  owner: "0xYourAddress",
+  owner: "0xTokenOwnerAddress",
   amount: BigInt(1000),
   deadline: BigInt(Date.now() + 3600 * 1000),
   walletClient
@@ -52,9 +52,9 @@ console.log(result); // { v, r, s, deadline }
 
 ```ts
 const tx = await submitSignedPermitData({
-    token: "0x...",
-    owner: "0x...",
-    recipient: "0x...",
+    token: "0xTokenAddress",
+    owner: "0xTokenOwnerAddress",
+    recipient: "0xBeneficiaryAddresss",
     amount: BigInt(1000),
     result.deadline,
     result.v, 
@@ -93,3 +93,4 @@ npm run build
 ## 📄 License
 
 MIT © [0x1codegod](https://github.com/0x1codegod)
+Twitter/X [@ShedrackTheDev](https://x.com/ShedrackTheDev)

@@ -1,11 +1,10 @@
 import { TOKEN_ABI } from "./erc20Permit";
 import { WalletClient } from "viem";
 import { createPublicClient, custom } from "viem";
-import { signTypedData } from "viem/actions";
 import {ethers} from "ethers";
 
 export interface SignPermitInput {
-  owner: `0x{string}`;
+  owner: `0x${string}`;
   token: `0x${string}`;
   amount: bigint;
   deadline: bigint;
